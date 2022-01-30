@@ -17,7 +17,7 @@ fileprivate struct _NavigationSearchBarConfigurator<SearchResultsContent: View>:
     @Environment(\._hidesNavigationSearchBarWhenScrolling) var hidesSearchBarWhenScrolling: Bool?
     
     var automaticallyShowSearchBar: Bool? = true
-    var hideNavigationBarDuringPresentation: Bool?
+    var hideNavigationBarDuringPresentation: Bool? = false
     var obscuresBackgroundDuringPresentation: Bool?
     
     func makeUIViewController(context: Context) -> UIViewControllerType {
