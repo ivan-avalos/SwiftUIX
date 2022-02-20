@@ -84,6 +84,7 @@ extension View {
 // MARK: - View.hidden
 
 extension View {
+    /// Hides this view conditionally.
     @inlinable
     public func hidden(_ isHidden: Bool) -> some View {
         Group {
@@ -145,5 +146,19 @@ extension View {
         removal: AnyTransition = .identity
     ) -> some View {
         transition(.asymmetric(insertion: insertion, removal: removal))
+    }
+}
+
+// MARK: - Debugging -
+
+extension View {
+    public func _printingChanges() -> Self {
+        if #available(iOS 15.0, macOS 12.0, tvOS 15.0, watchOS 8.0, *) {
+            Self._printChanges()
+
+            return self
+        } else {
+            return self
+        }
     }
 }

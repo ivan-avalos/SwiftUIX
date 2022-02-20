@@ -7,8 +7,12 @@ import SwiftUI
 
 #if os(iOS) || os(macOS) || os(tvOS) || targetEnvironment(macCatalyst)
 
+public protocol _opaque_AppKitOrUIKitHostingControllerProtocol {
+    func _fixSafeAreaInsets()
+}
+
 @MainActor
-public protocol AppKitOrUIKitHostingControllerProtocol: AppKitOrUIKitViewController {
+public protocol AppKitOrUIKitHostingControllerProtocol: _opaque_AppKitOrUIKitHostingControllerProtocol, AppKitOrUIKitViewController {
     @MainActor
     func sizeThatFits(in _: CGSize) -> CGSize
 }
@@ -43,20 +47,12 @@ extension AppKitOrUIKitHostingControllerProtocol {
             return targetSize
         }
 
-        if #available(iOS 15.0, *) {
-            #if os(iOS) || os(tvOS) || targetEnvironment(macCatalyst)
-            view.layoutIfNeeded()
-            #elseif os(macOS)
-            view.layout()
-            #endif
-        } else {
-            #if os(iOS) || os(tvOS) || targetEnvironment(macCatalyst)
-            view.setNeedsLayout()
-            view.layoutIfNeeded()
-            #elseif os(macOS)
-            view.layout()
-            #endif
-        }
+        #if os(iOS) || os(tvOS) || targetEnvironment(macCatalyst)
+        view.setNeedsLayout()
+        view.layoutIfNeeded()
+        #elseif os(macOS)
+        view.layout()
+        #endif
 
         var result: CGSize = sizeThatFits(in: fittingSize)
 
